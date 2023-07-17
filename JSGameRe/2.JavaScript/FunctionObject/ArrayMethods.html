@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      let data = [2, 5, 4, 7, 1, 6];
+      delete data[3];
+      data.forEach(function (e, i) {
+        console.log("[" + i + "]=" + e);
+      });
+      for (let i = 0; i < data.length; i++) {
+        console.log("[" + i + "]=" + data[i]);
+      }
+
+      data = [2, 5, 4, 7, 1, 6];
+
+      let r0 = data.every(function (e) {
+        return e < 6;
+      }); // r0 = false
+      let r1 = data.every(function (e) {
+        return e < 10;
+      }); // r1 = true
+      let r2 = data.every(function (e) {
+        return e > 0;
+      }); // r2 = true
+
+      data = [2, 5, 4, 7, 1, 6];
+      r0 = data.some(function (e) {
+        return e < 6;
+      }); // r0 = true
+      r1 = data.some(function (e) {
+        return e > 7;
+      }); // r1 = false
+      r2 = data.some(function (e) {
+        return e > 6;
+      }); // r2 = true
+
+      data = [2, 5, 4, 7, 1, 6];
+      r0 = data.filter(function (e) {
+        return e % 2 == 0;
+      }); // r0 = [2,4,6]
+      r1 = data.filter(function (e) {
+        return e % 2 == 1;
+      }); // r1 = [5,7,1]
+      r2 = data.filter(function (e) {
+        return e <= 4;
+      }); // r2 = [2,4,1]
+    </script>
+  </head>
+  <body>
+    <body>
+      <p>画面は更新されません。ソースをご覧ください。</p>
+    </body>
+  </body>
+</html>

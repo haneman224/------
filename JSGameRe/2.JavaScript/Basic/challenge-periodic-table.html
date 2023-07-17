@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>周期表</title>
+    <style>
+        th, td { width:55px; border: 1px solid gray; }
+        span {text-align: center;}
+        span.en {font-size:40px;}
+        span.ja {font-size:10px; display: block;}
+    </style>
+    <script>
+        onload = function(){
+            let cells = document.querySelectorAll("td")
+            for(let i = 0 ; i < cells.length ; i++){
+                let en = cells[i].firstChild;
+                let ja = cells[i].lastChild;
+                if (en.textContent == ""){
+                    cells[i].style.backgroundColor = "gray"
+                }
+                en.style.color = "white"
+                ja.style.color = "white"
+                en.onclick = function(e){
+                    e.target.style.color = (e.target.style.color == "white") ? "black" : "white"
+                }
+                ja.onclick = function(e){
+                    e.target.style.color = (e.target.style.color == "white") ? "blue" : "white"
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>周期表</h1>
+    <table>
+        <tr>
+            <th>1</th>
+            <th>2</th>
+            <th>3</th>
+            <th>4</th>
+            <th>5</th>
+            <th>6</th>
+            <th>7</th>
+            <th>8</th>
+            <th>9</th>
+            <th>10</th>
+            <th>11</th>
+            <th>12</th>
+            <th>13</th>
+            <th>14</th>
+            <th>15</th>
+            <th>16</th>
+            <th>17</th>
+            <th>18</th>            
+        </tr>
+        <tr>
+            <td><span class="en">H</span><span class="ja">水素</span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en">He</span><span class="ja">ヘリウム</span></td>
+        </tr>
+
+        <tr>
+            <td><span class="en">Li</span><span class="ja">リチウム</span></td>
+            <td><span class="en">Be</span><span class="ja">ベリリウム</span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en">B</span><span class="ja">ホウ素</span></td>
+            <td><span class="en">C</span><span class="ja">炭素</span></td>
+            <td><span class="en">N</span><span class="ja">窒素</span></td>
+            <td><span class="en">O</span><span class="ja">酸素</span></td>
+            <td><span class="en">F</span><span class="ja">フッ素</span></td>
+            <td><span class="en">Ne</span><span class="ja">ネオン</span></td>
+        </tr>
+        <tr>
+            <td><span class="en">Na</span><span class="ja">ナトリウム</span></td>
+            <td><span class="en">Mg</span><span class="ja">マグネシウム</span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en"></span><span class="ja"></span></td>
+            <td><span class="en">Al</span><span class="ja">アルミニウム</span></td>
+            <td><span class="en">Si</span><span class="ja">ケイ素</span></td>
+            <td><span class="en">P</span><span class="ja">リン</span></td>
+            <td><span class="en">S</span><span class="ja">硫黄</span></td>
+            <td><span class="en">Cl</span><span class="ja">塩素</span></td>
+            <td><span class="en">Ar</span><span class="ja">アルゴン</span></td>
+        </tr>
+    </table>
+</body>
+</html>

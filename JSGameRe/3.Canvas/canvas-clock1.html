@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <style>
+      #clock {
+        width: 300px;
+        height: 300px;
+      }
+    </style>
+    <script>
+      let ctx, h, m, s;
+
+      function gobj(id) {
+        return document.getElementById(id); // 指定されたidの要素を返す
+      }
+
+      function init() {
+        ctx = gobj("clock").getContext("2d"); // 描画コンテキスト取得
+        setInterval(tick, 1000); // タイマー開始
+      }
+
+      // メインループ
+      function tick() {
+        let now = new Date(); // 現在時刻から時h、分m、秒sを取得
+        h = now.getHours() % 12;
+        m = now.getMinutes();
+        s = now.getSeconds();
+        gobj("time").textContent = now.toTimeString();
+        paint();
+      }
+
+      // 針の描画(rotation:角度、length:長さ、width:幅、color:色)
+      function drawHand(rotation, length, width, color) {
+        ctx.save(); // コンテキスト保存
+        ctx.lineWidth = width; // 幅
+        ctx.strokeStyle = color; // 色
+        ctx.translate(150, 150); // 座標系の並行移動
+        ctx.rotate(rotation); // 座標系の回転
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(0, -length);
+        ctx.stroke();
+        ctx.restore(); // コンテキスト復元
+      }
+
+      function paint() {
+        ctx.clearRect(0, 0, 300, 300); // 背景クリア
+
+        ctx.save();
+        ctx.translate(150, 150); // 150,150を座標系の中心に移動
+        ctx.strokeStyle = "black";
+        let pitch = (Math.PI * 2) / 60; // 1分の角度
+
+        for (let i = 0; i < 60; i++) {
+          // 時計の周囲の目盛りを描画
+          ctx.beginPath();
+          ctx.lineWidth = i % 5 == 0 ? 3 : 1; // 5の倍数のみ太い線に
+          ctx.moveTo(0, -120);
+          ctx.lineTo(0, -140);
+          ctx.stroke();
+          ctx.rotate(pitch); // 座標系の回転
+        }
+        ctx.restore();
+
+        // 時分秒から回転角度を計算
+        let radH = ((Math.PI * 2) / 12) * h + ((Math.PI * 2) / 12) * (m / 60);
+        let radM = ((Math.PI * 2) / 60) * m;
+        let radS = ((Math.PI * 2) / 60) * s;
+
+        drawHand(radH, 80, 6, "blue");
+        drawHand(radM, 120, 4, "blue");
+        drawHand(radS, 140, 2, "red");
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas width="300" height="300" id="clock"></canvas>
+    <p id="time"></p>
+  </body>
+</html>

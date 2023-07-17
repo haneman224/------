@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      let ctx;
+      function init() {
+        let canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d"); // 描画コンテキスト取得
+
+        ctx.strokeStyle = "#FF0000"; // 線の色
+        ctx.fillStyle = "#00FF00"; // / 塗りつぶし色
+
+        drawTriangle(100, 10, false, false);
+        drawTriangle(200, 10, true, false);
+        drawTriangle(300, 10, false, true);
+        drawTriangle(400, 10, true, true);
+      }
+
+      function drawTriangle(x, y, isClose, isFill) {      // 三角形を描画（x,y:座標、isClose:パスを閉じる、isFill:塗りつぶす）
+        ctx.beginPath();
+        ctx.moveTo(x, y); // 描画開始
+        ctx.lineTo(x + 80, y); // 横へ移動
+        ctx.lineTo(x + 80, y + 80); // 下へ移動
+        if (isClose) {
+          ctx.closePath(); // パスを閉じる
+        }
+        if (isFill) {
+          ctx.fill(); // 塗りつぶし
+        } else {
+          ctx.stroke(); // 線の描画
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="500" height="100"></canvas>
+  </body>
+</html>

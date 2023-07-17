@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      let ctx; // 描画コンテキスト
+
+      function init() {
+        let canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d"); // 描画コンテキスト取得
+        paint();
+      }
+
+      function paint() {
+        // 緑色フィールド
+        ctx.fillStyle = "green"; // 塗りつぶし色
+        ctx.fillRect(0, 0, 600, 300);
+
+        ctx.strokeStyle = "white"; // 線の色
+        ctx.beginPath(); // センターライン
+        ctx.moveTo(300, 0);
+        ctx.lineTo(300, 300);
+        ctx.stroke();
+
+        ctx.beginPath(); // ゴール前（左）
+        ctx.rect(0, 100, 50, 100);
+        ctx.stroke();
+
+        ctx.beginPath(); // ゴール前（右）
+        ctx.rect(550, 100, 50, 100);
+        ctx.stroke();
+
+        ctx.beginPath(); // 中央の円
+        ctx.arc(300, 150, 50, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas width="600" height="300" id="canvas"></canvas>
+  </body>
+</html>

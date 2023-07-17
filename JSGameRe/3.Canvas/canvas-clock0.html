@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      let ctx;
+      function init() {
+        let canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d"); // 描画コンテキスト取得
+
+        for (let i = 0; i < 12; i++) {
+          ctx.save(); // コンテキスト保存
+          let r = (Math.PI / 6) * i;
+          ctx.translate(100, 100); // 座標系の中心を移動
+          ctx.rotate(r); // 回転
+
+          ctx.beginPath(); // パスの開始
+          ctx.moveTo(0, -60);
+          ctx.lineTo(0, -50);
+          ctx.stroke(); // 線の描画
+
+          ctx.restore(); // コンテキスト復元
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="200" height="200"></canvas>
+  </body>
+</html>

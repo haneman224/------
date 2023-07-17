@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      function init() {
+        let canvas = document.getElementById("canvas");
+        let ctx = canvas.getContext("2d"); // 描画コンテキスト取得
+
+        // コンテキストの設定
+        ctx.strokeStyle = "#FF0000"; // 線の色
+        ctx.fillStyle = "#00FF00"; // 塗潰し色
+        ctx.lineWidth = 10; // 線の太さ
+        ctx.lineCap = "round"; // 線の末端の形状
+        ctx.shadowColor = "#000000"; // 影の色
+        ctx.shadowBlur = 20; // 影のぼやかし
+
+        // 線を引く
+        ctx.beginPath();
+        ctx.moveTo(100, 100);
+        ctx.lineTo(180, 250);
+        ctx.stroke();
+
+        // 矩形を塗潰す
+        ctx.fillRect(300, 100, 100, 150);
+
+        // 矩形を描く
+        ctx.strokeRect(500, 100, 100, 150);
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <canvas id="canvas" width="700" height="400"></canvas>
+  </body>
+</html>

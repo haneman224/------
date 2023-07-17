@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>15puzzle</title>
+    <meta charset="UTF-8">
+    <style>
+      .tile {
+        width: 70px;
+        height: 70px;
+        border: 1px solid blue;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 36px;
+        background-color: white;
+        box-shadow: rgb(128, 128, 128) 5px 5px;
+      }
+    </style>
+    <script>
+      "use strict";
+
+      const tiles = []; // タイル配列
+      const hist = []; // ログ
+      function init() {
+        let table = document.getElementById("table"); // table要素の参照
+
+        for (let i = 0; i < 5; i++) {
+          // 5行分ループ
+          let tr = document.createElement("tr"); // tr要素の作成
+          for (let j = 0; j < 5; j++) {
+            // 各列分ループ
+            let td = document.createElement("td"); // td要素の作成
+            let index = i * 5 + j;
+            td.className = "tile"; // class設定
+            td.index = index; // タイルの並び順
+            td.value = index; // 描画されている値
+            td.textContent = index == 0 ? "" : index; // 0は空欄に
+            td.onclick = click; // クリック時のハンドラ登録
+            tr.appendChild(td); // 行trに列tdを追加
+            tiles.push(td);
+          }
+          table.appendChild(tr); // テーブルに行trを追加
+        }
+
+        for (let i = 0; i < 1000; i++) {
+          // 10回、疑似的にランダムにクリックして並べ替え
+          click({ target: { index: Math.floor(Math.random() * 16) } });
+        }
+      }
+
+      function click(e) {
+        let i = e.target.index; // どの場所がクリックされたか
+
+        if (i - 5 >= 0 && tiles[i - 5].value == 0) {
+          swap(i, i - 5); // 上と入れ替え
+        } else if (i + 5 < 25 && tiles[i + 5].value == 0) {
+          swap(i, i + 5); // 下と入れ替え
+        } else if (i % 5 != 0 && tiles[i - 1].value == 0) {
+          swap(i, i - 1); // 左と入れ替え
+        } else if (i % 5 != 4 && tiles[i + 1].value == 0) {
+          swap(i, i + 1); // 右と入れ替え
+        }
+      }
+
+      // i番目のタイルとj番目のタイルの番号を入れ替え
+      function swap(i, j) {
+        let tmp = tiles[i].value; // 変更先を一時退避
+        tiles[i].textContent = tiles[j].textContent;
+        tiles[i].value = tiles[j].value;
+        tiles[j].textContent = tmp;
+        tiles[j].value = tmp;
+      }
+
+      function tick(){
+        if (hist.length > 0){
+          let v = hist.pop()
+          swap(v[1], v[0])
+        }
+      }
+    </script>
+  </head>
+  <body onload="init()">
+    <table id="table"></table>
+  </body>
+</html>

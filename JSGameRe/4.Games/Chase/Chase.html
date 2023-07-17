@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Chase</title>
+    <script>
+      "use strict";
+      class Sprite {
+        constructor(x, y, r) {
+          this.x = x; // x座標
+          this.y = y; // y座標
+          this.sx = 0; // x方向速度
+          this.sy = 0; // y方向速度
+          this.r = r; // 半径
+          this.count = 0; // カウンタ
+        }
+        draw() {
+          this.count += 0.5;
+          let t = Math.sin(this.count) * 0.5;
+          let d = Math.atan2(this.sy, this.sx);
+          ctx.beginPath();
+          ctx.moveTo(this.x, this.y);
+          ctx.arc(this.x, this.y, this.r, d + t, d + Math.PI * 2 - t);
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+
+      class Eat extends Sprite {
+        tick() {
+          this.sx += (mouse.x - this.x) / 50; // マウスとの距離に応じて速度を加減
+          this.sy += (mouse.y - this.y) / 50;
+          this.sx *= 0.98; // 徐々に減速
+          this.sy *= 0.98;
+          this.x += this.sx; // 速度を座標に反映
+          this.y += this.sy;
+          this.draw();
+        }
+      }
+
+      class Dot extends Sprite {
+        constructor() {
+          super(Math.random() * 500 + 50, Math.random() * 500 + 50, 10);
+          this.sx = Math.random() * 10 - 5;
+          this.sy = Math.random() * 10 - 5;
+        }
+
+        tick() {
+          this.x = (this.x + this.sx + 600) % 600;
+          this.y = (this.y + this.sy + 600) % 600;
+          this.draw();
+        }
+      }
+
+      let ctx; // 描画コンテキスト
+      let dots = []; // 餌の配列
+      let life = 600; // 残り時間
+      let timerId = NaN; // タイマー
+      let back; // 背景画像
+      const mouse = { x: 0, y: 0 }; // マウスの座標
+      const eat = new Eat(300, 300, 30); // 自分
+
+      onload = function () {
+        // 初期化
+        ctx = document.getElementById("field").getContext("2d");
+        ctx.font = "32px 'Times New Roman'";
+        window.onmousemove = (e) => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+        }; // マウス移動ハンドラ
+        for (let i = 0; i < 15; i++) {
+          dots.push(new Dot(Math.random() * 600, Math.random() * 600, 10));
+        }
+        back = document.getElementById("back")
+        timerId = setInterval(tick, 50); // タイマー開始
+      };
+
+      function tick() {
+        // メインルーチン
+        ctx.drawImage(back, 0, 0); // 背景画像を描画
+        ctx.fillStyle = "#aa0";
+        eat.tick(); // 自分 移動と描画
+
+        dots.forEach((d) => {
+          d.tick(); // 餌 移動と描画
+        });
+
+        // 衝突判定：xとyの距離の差が30以上の餌のみ残す
+        dots = dots.filter((d) => {
+          return Math.abs(eat.x - d.x) > 30 || Math.abs(eat.y - d.y) > 30;
+        });
+
+        life -= 3;
+        ctx.fillRect(0, 0, life, 5);
+        if (life < 0) {
+          clearInterval(timerId); // ゲームオーバー
+          ctx.fillText("GAME OVER", 200, 300);
+        }
+        if (dots.length == 0) {
+          clearInterval(timerId);
+          ctx.fillText("CLEAR !!!", 200, 300);
+        }
+      }
+    </script>
+  </head>
+
+  <body>
+    <canvas id="field" width="600" height="600"></canvas>
+    <img src="back.png" id="back" style="display: none">
+  </body>
+</html>

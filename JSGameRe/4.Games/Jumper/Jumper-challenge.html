@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Jumper</title>
+    <script>
+      class Shuriken {
+        constructor() {
+          this.x = 1000;
+          this.y = 100;
+          this.t = 0;
+        }
+        tick(){
+          this.x -= 10;
+          this.t -= 0.5;
+          if (this.x < -100){
+            this.x = 1000;
+            this.y = Math.random()*500;
+          }
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.t);
+          for (let i = 0 ; i < 4 ; i++){
+            ctx.rotate(Math.PI/2*i);
+            ctx.beginPath();
+            ctx.moveTo(0,-20)
+            ctx.lineTo(-5,0);
+            ctx.lineTo(5,0)
+            ctx.fill();
+          }
+          ctx.restore();
+        }
+      }
+
+      class Jumper {
+        // 棒人間クラス
+        constructor() {
+          this.y = 200; // 座標
+          this.sy = 0; // 加速度（1フレームでの上下方向移動量）
+          this.index = 0; // 画像のインデックス
+          this.images = []; // 画像の配列
+          this.landed = true; // 着地してるか否か
+          for (let i = 0; i < 8; i++) {
+            this.images.push(document.getElementById("stick" + i));
+          }
+        }
+        jump(power) {
+          if (this.landed) {
+            this.y -= 10; // 着地時にはpowerに応じてジャンプ
+            this.sy = -power;
+          }
+        }
+        paint() {
+          if (!this.landed) {
+            // ジャンプ中 : 画像のコマを進め、加速度を加えて、上下方向に移動
+            this.index = (this.index + 1) % this.images.length;
+            this.sy += 0.3;
+            this.y += this.sy;
+          }
+          ctx.drawImage(this.images[this.index], 100, this.y);
+          this.landed = false;
+          boxes.forEach((b) => {
+            let foot = this.y + 150; // 足のY座標
+            let right = b.x + b.w; // 箱の右端座標
+            if (b.x < 150 && 150 < right && b.y <= foot && foot <= b.y + 40) {
+              this.landed = true;
+              this.y = b.y - 150;
+            }
+          });
+        }
+      }
+
+      class Box {
+        // 箱クラス
+        constructor(x, y, w) {
+          this.x = x;
+          this.y = y;
+          this.w = w;
+        }
+        paint() {
+          ctx.fillStyle = 'rgba(50, 0, 0, 0.5)';
+          ctx.fillRect(this.x, this.y, this.w, 600);
+        }
+      }
+
+      let ctx; // 描画コンテキスト
+      let jumper; // 主人公
+      let power = 0; // ジャンプの力
+      let timerId = NaN; // タイマー
+      let isMouseDown = false; // マウス押下中か否か
+      let boxes = [new Box(0, 350, 300)]; // 箱のリスト（最初の１つは設定）
+      let back; // 背景画像
+      let shuriken = new Shuriken();
+
+      onload = function () {
+        jumper = new Jumper(100, 200); // 主人公（忍者）オブジェクト作成
+        for (let x = 400; x < 3000; ) {
+          // 箱を追加（x軸で3000まで）
+          let w = Math.random() * 200 + 100;
+          let y = Math.random() * 300 + 300;
+          boxes.push(new Box(x, y, w));
+          x += w + Math.random() * 200 + 100;
+        }
+
+        ctx = document.getElementById("field").getContext("2d");
+        ctx.font = "72px 'sans-serif'";
+        ctx.strokeStyle = "#000000";
+        ctx.lineWidth = 5;
+        back = document.getElementById("back")
+
+        window.onpointerdown = () => {
+          isMouseDown = true; // マウス押下中
+        };
+        window.onpointerup = () => {
+          isMouseDown = false; // マウスを離した→ジャンプ
+          jumper.jump(power / 20);
+        };
+
+        timerId = setInterval(tick, 50); // タイマーの開始
+      };
+
+      function tick() {
+        // メインループ
+        power = isMouseDown ? Math.min(power + 10, 600) : 0; // マウス押下→パワー増加
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, 800, 600);
+        ctx.drawImage(back, 0, 0);
+        ctx.fillStyle = "#000000";
+        ctx.fillRect(0, 0, power, 15);
+        jumper.paint(); // 棒人間描画
+        boxes.forEach((b) => {
+          if (!jumper.landed) {
+            b.x -= 5; // ジャンプ中は箱を左へ移動
+          }
+          b.paint(); // 箱の描画
+        });
+        if (jumper.y > 500) {
+          clearInterval(timerId); // 落下時はゲームオーバー
+          ctx.fillText("Game Over", 150, 300);
+        }
+        if (boxes[boxes.length - 1].x < 0) {
+          clearInterval(timerId); // すべての箱を飛んだらクリア
+          ctx.fillText("CLEAR !!!", 150, 300);
+        }
+        shuriken.tick();
+        if (100 < shuriken.x && shuriken.x < 200 && jumper.y < shuriken.y && shuriken.y < jumper.y + 150){
+          clearInterval(timerId); // 落下時はゲームオーバー
+          ctx.fillText("Game Over", 150, 300);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <canvas id="field" width="800" height="600"></canvas>
+    <img src="back.png" id="back" style="display: none">
+    <img src="stick0.png" id="stick0" style="display: none">
+    <img src="stick1.png" id="stick1" style="display: none">
+    <img src="stick2.png" id="stick2" style="display: none">
+    <img src="stick3.png" id="stick3" style="display: none">
+    <img src="stick4.png" id="stick4" style="display: none">
+    <img src="stick5.png" id="stick5" style="display: none">
+    <img src="stick6.png" id="stick6" style="display: none">
+    <img src="stick7.png" id="stick7" style="display: none">
+  </body>
+</html>

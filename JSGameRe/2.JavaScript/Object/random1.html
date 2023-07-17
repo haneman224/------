@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script>
+      function random1() {
+        let r = Math.floor(Math.random() * 6);
+        r = Math.max(2, Math.min(5, r));
+        document.getElementById("value1").textContent = r;
+      }
+      function random2() {
+        let r = Math.floor(Math.random() * 4) + 2;
+        document.getElementById("value2").textContent = r;
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="random1()">乱数:<span id="value1"></span></button>
+    <button onclick="random2()">乱数:<span id="value2"></span></button>
+  </body>
+</html>

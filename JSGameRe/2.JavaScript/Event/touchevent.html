@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Touch Event</title>
+    <style>
+        canvas {width:400px; height:400px;border:solid 1px black;}
+    </style>
+    <script>
+        onload = function(){
+            let canvas = document.getElementById("canvas")
+            canvas.onmousedown = handler;
+            canvas.onmousemove = handler;
+            canvas.onmouseup = handler;
+            canvas.addEventListener("touchstart", handler)
+            canvas.addEventListener("touchmove", handler)
+            canvas.addEventListener("touchend", handler)
+        }
+        function handler(e){
+            let msg = document.getElementById("message").textContent;
+            msg += e.type + ":" + e.offsetX + ", ";
+            if (e.touches){
+                msg += e.touches;
+            }
+            if (e.type.startsWith("touch")){
+                console.log("e.touches="+e.touches)
+            }
+            document.getElementById("message").textContent = msg;
+        }
+    </script>
+</head>
+<body>
+    <h1>Touch Event Test</h1>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <p id="message"></p>
+</body>
+</html>
