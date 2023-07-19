@@ -1,6 +1,48 @@
+@import url(はねまんの初手作りサイト初級/css/);
+
+div.c {
+    display: flex;
+    align-items: center;
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-container h1 {
+    margin-right: 10px; /* 適切なマージンを指定してください */
+}
 
 
-h3{
-    color: #ec3333;
+div.resipi{ color:#c0ccf1;
+    margin: 25px;
+    font-size: 25px;
+    justify-content: center;
+}
+
+img {
+    border-radius: 30px;
+
+        padding: 5px;
+        border: 9px solid green;
+}
+
+input{
+    color: #1c4ef3;
     margin: 0px;
+    font-family: arial;
+    font-size: 100%;
+    margin: 0px;
+    outline: dashed 1px black;
+    /* 子要素を水平方向の中央に配置する */
+    display: flex;
+    justify-content: center;
+    
+
+}
+h3{
+    color: #1c4ef3;
+    margin: 0px;
+   
 }
